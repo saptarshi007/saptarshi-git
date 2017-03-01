@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Saptarshi Progress bar Demo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <h1>Progress Bars Demo</h1>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-lg-12">
+        <div id="parent">
+          <br>
+          <div id="Progress">
+            <div id="Bar1">
+              <div id="label1">62%</div>
+            </div>
+          </div>
+          <br>
+          <div id="Progress">
+            <div id="Bar2">
+              <div id="label2">45%</div>
+            </div>
+          </div>
+          <br>
+          <div id="Progress">
+            <div id="Bar3">
+              <div id="label3">62%</div>
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-lg-12" id="menu">
+        <select id="dropdown">
+          <option value="Progress1">#progress1</option>
+          <option value="Progress2">#progress2</option>
+          <option value="Progress3">#progress3</option>
+        </select>
+        <button class="button" onclick="ProgressBar(-25)">-25</button>
+        <button class="button" onclick="ProgressBar(-10)">-10</button>
+        <button class="button" onclick="ProgressBar(10)">+10</button>
+        <button class="button" onclick="ProgressBar(25)">+25</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var endPoint = '{"buttons": [28, 26, -41, -10],"bars": [62,45, 62],"limit": 270}';
+
+    var json = JSON.parse(endPoint);
+    var max = json.limit;
+    var width1 = json.bars[0];
+    var width2 = json.bars[1];
+    var width3 = json.bars[2];
+    var min = 0;
+    var warn = 80;
+
+    function ProgressBar(newwidth) {
+      var progressbar = document.getElementById("dropdown").value;
+      if (progressbar == 'Progress1') {
+        var elem = document.getElementById("Bar1");
+        var lbl = document.getElementById("label1");
+        width1 = width1 + newwidth;
+        width1 = changeBar(width1, elem, lbl);
+      }
+
+      if (progressbar == 'Progress2') {
+        var elem = document.getElementById("Bar2");
+        var lbl = document.getElementById("label2");
+        width2 = width2 + newwidth;
+        width2 = changeBar(width2, elem, lbl);
+      }
+
+      if (progressbar == 'Progress3') {
+        var elem = document.getElementById("Bar3");
+        var lbl = document.getElementById("label3");
+        width3 = width3 + newwidth;
+        width3 = changeBar(width3, elem, lbl);
+      }
+
+      function changeBar(width, elm, lbl) {
+        elem.style.width = width + '%';
+        if (width >= warn) {
+          elem.style.backgroundColor = 'red';
+          if (width >= max) {
+            width = max;
+            elem.style.width = max + '%';
+            lbl.innerHTML = max + '%';
+            return width;
+          }
+        } else if (width <= min) {
+          width = min;
+          elem.style.width = min + '%';
+          lbl.innerHTML = min + '%';
+          return width;
+        } else {
+          elem.style.backgroundColor = 'green';
+        }
+        lbl.innerHTML = width + '%';
+        return width;
+      }
+    }
+  </script>
+</body>
+
+</html>
